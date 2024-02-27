@@ -33,7 +33,8 @@ class Database {
 
   async listar(id) {
     const dados = await this.obterDadosArquivo();
-    const dadosFiltrados = dados.filter((item) => (id ? item.id === id : true));
+    if (id === undefined) return dados;
+    const dadosFiltrados = dados.filter((item) => item.id === id);
     return dadosFiltrados;
   }
 
@@ -53,7 +54,9 @@ class Database {
 
   async atualizar(id, modificacoes) {
     const dados = await this.obterDadosArquivo();
-    const indice = dados.findIndex((item) => item.id === parseInt(id));
+    const indice = dados.findIndex(
+      (item) => parseInt(item.id) === parseInt(id),
+    );
     if (indice === -1) {
       throw Error('O herói informado não existe');
     }
